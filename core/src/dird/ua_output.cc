@@ -677,11 +677,13 @@ static bool DoListCmd(UaContext* ua, const char* cmd, e_list_type llist)
       return false;
     }
   }
-
+  std::vector<std::string> job_status_list;
+  job_status_list = GetUserJobStatusSelection(ua);
   // jobstatus=X
-  if (!GetUserJobStatusSelection(ua, &jobstatus)) {
-    ua->ErrorMsg(_("invalid jobstatus parameter\n"));
-    return false;
+  if (job_status_list.size() == 0) { return false; }
+
+  for (auto& jobstatus : job_status_list) {
+    ua->SendMsg("# %s #\n", jobstatus.c_str());
   }
 
   // joblevel=X
@@ -697,6 +699,7 @@ static bool DoListCmd(UaContext* ua, const char* cmd, e_list_type llist)
       || ((Bstrcasecmp(ua->argk[1], NT_("job"))
            || Bstrcasecmp(ua->argk[1], NT_("jobname")))
           && ua->argv[1])) {
+    ua->SendMsg("######## START ########\n", ua->cmd);
     // List jobs or List job=xxx
     i = FindArgWithValue(ua, NT_("jobname"));
     if (i < 0) { i = FindArgWithValue(ua, NT_("job")); }
@@ -748,6 +751,8 @@ static bool DoListCmd(UaContext* ua, const char* cmd, e_list_type llist)
                            jobstatus, joblevel, volumename, poolname, schedtime,
                            optionslist.last, optionslist.count, ua->send,
                            llist);
+
+    ua->SendMsg("######## END ########\n", ua->cmd);
   } else if (Bstrcasecmp(ua->argk[1], NT_("jobtotals"))) {
     // List JOBTOTALS
     ua->db->ListJobTotals(ua->jcr, &jr, ua->send);
@@ -1038,6 +1043,7 @@ static bool DoListCmd(UaContext* ua, const char* cmd, e_list_type llist)
 
   return true;
 }
+
 
 static inline bool parse_jobstatus_selection_param(
     PoolMem& selection,

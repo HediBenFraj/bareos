@@ -1925,32 +1925,34 @@ bool GetUserJobTypeSelection(UaContext* ua, int* jobtype)
   return true;
 }
 
-bool GetUserJobStatusSelection(UaContext* ua, int* jobstatus)
+std::vector<std::string> GetUserJobStatusSelection(UaContext* ua)
 {
   int i;
+  std::vector<std::string> jobstatus_list;
 
   if ((i = FindArgWithValue(ua, NT_("jobstatus"))) >= 0) {
-    if (strlen(ua->argv[i]) == 1 && ua->argv[i][0] >= 'A'
-        && ua->argv[i][0] <= 'z') {
-      *jobstatus = ua->argv[i][0];
-    } else if (Bstrcasecmp(ua->argv[i], "terminated")) {
-      *jobstatus = JS_Terminated;
-    } else if (Bstrcasecmp(ua->argv[i], "warnings")) {
-      *jobstatus = JS_Warnings;
-    } else if (Bstrcasecmp(ua->argv[i], "canceled")) {
-      *jobstatus = JS_Canceled;
-    } else if (Bstrcasecmp(ua->argv[i], "running")) {
-      *jobstatus = JS_Running;
-    } else if (Bstrcasecmp(ua->argv[i], "error")) {
-      *jobstatus = JS_ErrorTerminated;
-    } else if (Bstrcasecmp(ua->argv[i], "fatal")) {
-      *jobstatus = JS_FatalError;
-    } else {
-      /* invalid jobstatus */
-      return false;
+    jobstatus_list = split_string(ua->argv[i], ',');
+
+    for (auto& jobstatus : jobstatus_list) {
+      if (strlen(jobstatus.c_str()) == 1 && jobstatus.c_str()[0] >= 'A'
+          && jobstatus.c_str()[0] <= 'z') {
+        jobstatus = jobstatus.c_str();
+      } else if (Bstrcasecmp(jobstatus.c_str(), "terminated")) {
+        jobstatus = JS_Terminated;
+      } else if (Bstrcasecmp(jobstatus.c_str(), "warnings")) {
+        jobstatus = JS_Warnings;
+      } else if (Bstrcasecmp(jobstatus.c_str(), "canceled")) {
+        jobstatus = JS_Canceled;
+      } else if (Bstrcasecmp(jobstatus.c_str(), "running")) {
+        jobstatus = JS_Running;
+      } else if (Bstrcasecmp(jobstatus.c_str(), "error")) {
+        jobstatus = JS_ErrorTerminated;
+      } else if (Bstrcasecmp(jobstatus.c_str(), "fatal")) {
+        jobstatus = JS_FatalError;
+      }
     }
   }
-  return true;
+  return jobstatus_list;
 }
 
 bool GetUserJobLevelSelection(UaContext* ua, int* joblevel)
