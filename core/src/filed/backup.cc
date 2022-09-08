@@ -109,10 +109,9 @@ bool BlastDataToStorageDaemon(JobControlRecord* jcr,
 
   Dmsg1(300, "filed: opened data connection %d to stored\n", sd->fd_);
 
-  LockRes(my_config);
-  ClientResource* client
-      = (ClientResource*)my_config->GetNextRes(R_CLIENT, NULL);
-  UnlockRes(my_config);
+  LockRes(config);
+  ClientResource* client = (ClientResource*)config->GetNextRes(R_CLIENT, NULL);
+  UnlockRes(config);
   uint32_t buf_size;
   if (client) {
     buf_size = client->max_network_buffer_size;
@@ -125,7 +124,7 @@ bool BlastDataToStorageDaemon(JobControlRecord* jcr,
     return false;
   }
 
-  jcr->buf_size = sd->message_length;
+  if (sd != nullptr) { jcr->buf_size = sd->message_length; }
 
   if (!AdjustCompressionBuffers(jcr)) { return false; }
 
