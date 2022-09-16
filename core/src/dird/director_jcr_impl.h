@@ -27,7 +27,6 @@
 #include "cats/cats.h"
 #include "dird/client_connection_handshake_mode.h"
 #include "dird/job_trigger.h"
-#include "findlib/find.h"
 
 typedef struct s_tree_root TREE_ROOT;
 
