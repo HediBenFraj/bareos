@@ -139,7 +139,7 @@ bool BlastDataToStorageDaemon(JobControlRecord* jcr,
                            AccurateCheckFile);
   }
 
-  StartHeartbeatMonitor(jcr);
+  //  StartHeartbeatMonitor(jcr);
 
   if (have_acl) {
     jcr->fd_impl->acl_data = std::make_unique<AclData>();
@@ -181,9 +181,9 @@ bool BlastDataToStorageDaemon(JobControlRecord* jcr,
 
   AccurateFinish(jcr); /* send deleted or base file list to SD */
 
-  StopHeartbeatMonitor(jcr);
+  //  StopHeartbeatMonitor(jcr);
 
-  sd->signal(BNET_EOD); /* end of sending data */
+  if (sd != nullptr) { sd->signal(BNET_EOD); /* end of sending data */ }
 
   if (have_acl && jcr->fd_impl->acl_data) {
     FreePoolMemory(jcr->fd_impl->acl_data->u.build->content);
