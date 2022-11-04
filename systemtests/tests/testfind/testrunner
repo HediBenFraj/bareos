@@ -27,7 +27,7 @@ testfind_log=$tmp/testfind.out
 rm -f $testfind_log
 ./sbin/testfind-testfind -c etc/bareos | tee  "$testfind_log"
 
-expect_grep "Total files    : 68" \
+expect_grep "Total files    : 66" \
             "$testfind_log" \
             "Number of files is incorrect."
 

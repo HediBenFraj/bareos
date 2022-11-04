@@ -1739,8 +1739,7 @@ static inline void ClearCompressionFlagInFileset(JobControlRecord* jcr)
 }
 
 // Find out what encryption cipher to use.
-static inline bool GetWantedCryptoCipher(JobControlRecord* jcr,
-                                         crypto_cipher_t* cipher)
+bool GetWantedCryptoCipher(JobControlRecord* jcr, crypto_cipher_t* cipher)
 {
   findFILESET* fileset;
   bool force_encrypt = false;
