@@ -25,24 +25,26 @@
  * Test program for find files
  */
 
+
 #include "include/bareos.h"
-#include "dird/dird_conf.h"
-#include "findlib/find.h"
-#include "lib/mntent_cache.h"
 #include "include/ch.h"
-#include "filed/fd_plugins.h"
+
+#include "dird/dird_conf.h"
+#include "dird/dird_globals.h"
+#include "dird/jcr_util.h"
+#include "dird/testfind_jcr.h"
+#include "filed/fileset.h"
+
+#include "lib/mntent_cache.h"
 #include "lib/parse_conf.h"
 #include "dird/jcr_util.h"
 #include "dird/dird_globals.h"
 #include "dird/dird_conf.h"
 #include "dird/director_jcr_impl.h"
 #include "lib/recent_job_results_list.h"
+#include "lib/tree.h"
+#include "findlib/find.h"
 #include "findlib/attribs.h"
-#include "filed/fileset.h"
-#include "lib/util.h"
-#include "filed/backup.h"
-#include "dird/testfind_jcr.h"
-#include "filed/filed_globals.h"
 
 #if defined(HAVE_WIN32)
 #  define isatty(fd) (fd == 0)
@@ -64,8 +66,6 @@ void TestfindFreeJcr(JobControlRecord* jcr)
 }
 
 
-/* Dummy functions */
-void GeneratePluginEvent(JobControlRecord*, filedaemon::bEventType, void*) {}
 extern bool ParseDirConfig(const char* configfile, int exit_code);
 
 /* Global variables */
