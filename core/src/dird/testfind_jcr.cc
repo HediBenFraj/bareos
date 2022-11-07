@@ -19,20 +19,15 @@
    02110-1301, USA.
 */
 
-#include "include/bareos.h"
+
 #include "filed/filed_utils.h"
 #include "filed/filed.h"
 #include "filed/filed_jcr_impl.h"
 #include "filed/filed_globals.h"
 #include "filed/dir_cmd.h"
-#include "lib/crypto.h"
+
 #include "lib/bsock_testfind.h"
-#include "lib/mem_pool.h"
-#include "filed/filed_conf.h"
 #include "lib/parse_conf.h"
-#include "filed/filed_globals.h"
-#include "filed/dir_cmd.h"
-#include "lib/crypto_openssl.h"
 
 
 using namespace filedaemon;
