@@ -187,7 +187,7 @@ int main(int argc, char* const* argv)
   setupFileset(ff, jcr);
 
   const char* filename
-      = jcr->impl->res.fileset->include_items[0]->name_list.get(0);
+      = jcr->dir_impl->res.fileset->include_items[0]->name_list.get(0);
 
   filedaemon::AddFileToFileset(jcr, filename, true, ff->fileset);
 

@@ -22,7 +22,8 @@
 #include "include/bareos.h"
 #include "filed/filed_utils.h"
 #include "filed/filed.h"
-#include "filed/jcr_private.h"
+#include "filed/filed_jcr_impl.h"
+#include "filed/filed_globals.h"
 #include "filed/dir_cmd.h"
 #include "lib/crypto.h"
 #include "lib/bsock_testfind.h"
@@ -54,12 +55,12 @@ void SetupTestfindJcr(FindFilesPacket* ff, const char* configfile)
     jcr = create_new_director_session(sock);
 
     jcr->store_bsock = sock;
-    jcr->impl->ff = ff;
-    jcr->impl->last_fname = GetPoolMemory(PM_FNAME);
+    jcr->fd_impl->ff = ff;
+    jcr->fd_impl->last_fname = GetPoolMemory(PM_FNAME);
 
     GetWantedCryptoCipher(jcr, &cipher);
 
-    BlastDataToStorageDaemon(jcr, NULL, cipher, DEFAULT_NETWORK_BUFFER_SIZE);
+    BlastDataToStorageDaemon(jcr, cipher, DEFAULT_NETWORK_BUFFER_SIZE);
   }
   if (me->secure_erase_cmdline) { FreePoolMemory(me->secure_erase_cmdline); }
 }
