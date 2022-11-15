@@ -297,7 +297,7 @@ static bool ValidateCommand(JobControlRecord* jcr,
   return allowed;
 }
 
-static inline void CleanupFileset(JobControlRecord* jcr)
+void CleanupFileset(JobControlRecord* jcr)
 {
   findFILESET* fileset;
   findIncludeExcludeItem* incexe;
